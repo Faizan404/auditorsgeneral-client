@@ -1,0 +1,240 @@
+<app-header></app-header>
+<div class="home--form-hr">
+    <div class="tabs">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <button class="nav-link active" aria-current="page" type="button" routerLink="/home/form-hr">Form</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" type="button" routerLink="/home/filter-hr">Filter</button>
+            </li>
+          </ul>
+    </div>
+    <div class="section-navigator" id="section-navigator">
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-audit')">Audit</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-draft')">Draft</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-ministery')">Ministery</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-dac')">DAC</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-pac')">PAC</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-comments')">Comments</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-reply')">Reply</button>
+        <button class="btn btn-navigator btn-outline-success" type="button" (click)="scrollToSection('section-cases')">Cases</button>
+    </div>
+    <button class="btn-scrollup btn btn-outline-dark" type="button" (click)="scrollToSection('section-navigator')">
+        <lucide-icon name="arrow-up"></lucide-icon>
+    </button>
+    <form class="hr" (ngSubmit)="editAuditForm(dataService.myFromHr)">
+        <section id="section-audit" class="section section-audit">
+           <h2 class="section-title audit">Audit</h2>
+           <div class="row mb-3">
+                <div class="col">
+                    <app-hr-fields [formControl]="$any(dataService.myFromHr.controls['auditParaNo'])" [attrLabel]="'auditParaNo'" [inputTitle]="'Audit Para No'" [placeholder]="'Enter the audit para no'" [type]="'number'"></app-hr-fields>
+                </div>
+                <div class="col">
+                    <app-hr-fields [formControl]="$any(dataService.myFromHr.controls['auditYear'])" [attrLabel]="'auditYear'" [inputTitle]="'Audit Year'" [placeholder]="'Enter the audit year'" [type]="'number'"></app-hr-fields>
+                </div>
+           </div>
+           <div class="col">
+                <app-textarea-fields [formControl]="$any(dataService.myFromHr.controls['auditPara'])" [attrLabel]="'auditPara'" [inputTitle]="'Audit Para'" [placeholder]="'Enter the audit para'"></app-textarea-fields>
+            </div>
+        </section>
+        <section id="section-draft" class="section section-draft">
+            <h2 class="section-title draft">Draft</h2>
+            <form class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col">
+                        <app-hr-fields [formControl]="$any(myFormPara.controls['draftParaNo'])" [attrLabel]="'draftParaNo'" [inputTitle]="'Draft Para No'" [placeholder]="'Enter the draft para no.'" [type]="'number'"></app-hr-fields>
+                    </div>
+                    <div class="col">
+                        <app-hr-fields [formControl]="$any(myFormPara.controls['subjectOfPara'])" [attrLabel]="'subjectPara'" [inputTitle]="'Draft Para Subject'" [placeholder]="'Enter the draft para subject'" [type]="'text'"></app-hr-fields>
+                    </div>
+                    
+                </div>
+                
+                <div class="row mb-3">
+                    <app-textarea-fields [formControl]="$any(myFormPara.controls['draftPara'])" [attrLabel]="'draftPara'" [inputTitle]="'Draft Para'" [placeholder]="'Enter your draft para content'"></app-textarea-fields>
+                </div>
+                <div class="para-pagination">
+                    <button *ngFor="let drafts of dataService.draftParaTableContent" class="btn btn-light" (click)="renderData(drafts.draftParaNo, dataService.draftParaTableContent, 'draft', myFormPara)" type="button">{{drafts.draftParaNo}}</button>
+                </div>
+                <div class="btn-group--container">
+                    <button [disabled]="!dataService.activeActionBtns" class="btn btn-danger" type="button" (click)="deleteParaData(myFormPara, 'del-para', dataService.draftParaTableContent)">
+                        <span>Delete</span>
+                        <span> <lucide-icon class="icon-modal icon-del" name="trash"></lucide-icon></span>
+                    </button>
+                    <button [disabled]="!myFormPara.valid" class="btn btn-success" type="button" (click)="submitPara(myFormPara, 'auditform/hr-draft', dataService.draftParaTableContent)">Submit</button>
+                    <button [disabled]="!dataService.activeActionBtns" class="btn  btn-primary" type="button" (click)="editParaData(myFormPara, 'update-draft', dataService.draftParaTableContent)">
+                        <span>Edit</span>
+                        <span><lucide-icon class="icon-modal icon-edit" name="file-signature"></lucide-icon></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section id="section-ministery" class="section section-info">
+            <h2 class="section-title draft">Ministery Of Railways</h2>
+            <div class="row mb-3">
+                <div class="col">
+                    <app-hr-fields [formControl]="$any(dataService.myFromHr.controls['federalMinister'])" [attrLabel]="'federalMinister'" [inputTitle]="'Federal Minister'" [placeholder]="'Enter the federal minister'" [type]="'text'"></app-hr-fields>
+                </div>
+                <div class="col">
+                    <app-hr-fields [formControl]="$any(dataService.myFromHr.controls['chairperson'])" [attrLabel]="'chairperson'" [inputTitle]="'Chairperson'" [placeholder]="'Enter the chairperson'" [type]="'text'"></app-hr-fields>
+                </div>
+                <div class="col">
+                    <app-hr-fields [formControl]="$any(dataService.myFromHr.controls['auditOfficer'])" [attrLabel]="'auditOfficer'" [inputTitle]="'Audit Officer'" [placeholder]="'Enter the audit officer'" [type]="'text'"></app-hr-fields>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <app-datepicker-field [formControl]="$any(dataService.myFromHr.controls['dateIssuance'])" [attrLabel]="'dateIssuance'" [inputTitle]="'Date Issuance Of Audit Observation'" [placeholder]="'DD-MM-YYYY'"></app-datepicker-field>
+                </div>
+                <div class="col">
+                    <app-datepicker-field [formControl]="$any(dataService.myFromHr.controls['dateFinalization'])" [attrLabel]="'dateFinalization'" [inputTitle]="'Date Audit Report Finalization'" [placeholder]="'DD-MM-YYYY'"></app-datepicker-field>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <app-textarea-fields [formControl]="$any(dataService.myFromHr.controls['criteria'])" [attrLabel]="'criteria'" [inputTitle]="'Criteria'" [placeholder]="'Enter the criteria'"></app-textarea-fields>
+                </div>
+                <div class="col">
+                    <app-textarea-fields [formControl]="$any(dataService.myFromHr.controls['formation'])" [attrLabel]="'formation'" [inputTitle]="'Formation'" [placeholder]="'Enter the formation'"></app-textarea-fields>
+                </div>
+            </div>
+        </section>
+        <section id="section-dac" class="section section-directives--dac">
+            <h2 class="section-title d-dirctive">DAC Directives</h2>
+            <form>
+                <div class="row mb-3">
+                    <div class="col">
+                        <app-datepicker-field [formControl]="$any(myFormDacDirectives.controls['dacDecisionDate'])" [attrLabel]="'dacDecisionDate'" [inputTitle]="'DAC Decision Date'" [placeholder]="'DD-MM-YYYY'"></app-datepicker-field>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col mb-3">
+                        <app-textarea-fields [formControl]="$any(myFormDacDirectives.controls['dacDirectives'])" [attrLabel]="'dacDirectives'" [inputTitle]="'DAC Directives'" [placeholder]="'Enter the dac directives'"></app-textarea-fields>
+                    </div>
+                    <div class="col">
+                        <app-textarea-fields [formControl]="$any(myFormDacDirectives.controls['complianceOfDACDirectives'])" [attrLabel]="'complianceOfDacDirectives'" [inputTitle]="'Compliance DAC Directives'" [placeholder]="'Enter the DAC compliance directive'"></app-textarea-fields>
+                    </div>
+                </div>
+                <div class="para-pagination">
+                    <button *ngFor="let dac of dataService.dacParaContent" class="btn btn-light" (click)="renderData(dac.dacDecisionDate, dataService.dacParaContent, 'dac', myFormDacDirectives)" type="button">{{convertDate(dac.dacDecisionDate)}}</button>
+                </div>
+                <div class="btn-group--container">
+                    <button [disabled]="!dataService.activeActionBtns" class="btn btn-danger" type="button" (click)="deleteParaData(myFormDacDirectives, 'del-dac', dataService.dacParaContent)">
+                        <span>Delete</span>
+                        <span> <lucide-icon class="icon-modal icon-del" name="trash"></lucide-icon></span>
+                    </button>
+                    <button [disabled]="!myFormDacDirectives.valid" class="btn btn-success" type="button" (click)="submitPara(myFormDacDirectives, 'auditform/create-dac', dataService.dacParaContent)">Submit</button>
+                    <button [disabled]="!dataService.activeActionBtns" class="btn  btn-primary" type="button" (click)="editParaData(myFormDacDirectives, 'update-dac', dataService.dacParaContent)">
+                        <span>Edit</span>
+                        <span><lucide-icon class="icon-modal icon-edit" name="file-signature"></lucide-icon></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section id="section-pac" class="section section-directives--pac">
+            <h2 class="section-title">PAC Directives</h2>
+            <form action="">
+                <div class="row mb-3">
+                    <div class="col">
+                        <app-datepicker-field [formControl]="$any(myFormPacDirectives.controls['pacDecisionDate'])" [attrLabel]="'pacDecisionDate'" [inputTitle]="'PAC Decision Date'" [placeholder]="'DD-MM-YYYY'"></app-datepicker-field>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col mb-3">
+                        <app-textarea-fields [formControl]="$any(myFormPacDirectives.controls['pacDirectives'])" [attrLabel]="'pacDirectives'" [inputTitle]="'PAC Directives'" [placeholder]="'Enter the PAC directives'"></app-textarea-fields>
+                    </div>
+                    <div class="col">
+                        <app-textarea-fields [formControl]="$any(myFormPacDirectives.controls['complianceOfPACDirectives'])" [attrLabel]="'compliancePacDirectives'" [inputTitle]="'Compliance PAC Directives'" [placeholder]="'Enter the PAC compliance directive'"></app-textarea-fields>
+                    </div>
+                </div>
+                <div class="para-pagination">
+                    <button *ngFor="let pac of dataService.pacParaContent" class="btn btn-outline-dark" (click)="renderData(pac.pacDecisionDate, dataService.pacParaContent, 'pac', myFormPacDirectives)" type="button">{{convertDate(pac.pacDecisionDate)}}</button>
+                </div>
+                <div class="btn-group--container">
+                    <button [disabled]="!dataService.activeActionBtns" class="btn btn-outline-danger" type="button" (click)="deleteParaData(myFormPacDirectives, 'del-pac', dataService.pacParaContent)">
+                        <span>Delete</span>
+                        <span> <lucide-icon class="icon-modal icon-del" name="trash"></lucide-icon></span>
+                    </button>
+                    <button [disabled]="!myFormPacDirectives.valid" class="btn btn-outline-success" type="button" (click)="submitPara(myFormPacDirectives, 'auditform/create-pac', dataService.pacParaContent)">Submit</button>
+                    <button [disabled]="!dataService.activeActionBtns" class="btn  btn-outline-primary" type="button" (click)="editParaData(myFormPacDirectives, 'update-pac', dataService.pacParaContent)">
+                        <span>Edit</span>
+                        <span><lucide-icon class="icon-modal icon-edit" name="file-signature"></lucide-icon></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <section id="section-comments" class="section section-comments">
+            <h2 class="section-title draft">Comments</h2>
+            <div class="col">
+                <app-textarea-fields [formControl]="$any(dataService.myFromHr.controls['auditComments'])" [attrLabel]="'auditComments'" [inputTitle]="'Audit Comments'" [placeholder]="'Enter the audit comments'"></app-textarea-fields>
+            </div>
+        </section>
+        <section id="section-reply" class="section section-reply">
+            <h2 class="section-title draft">Reply</h2>
+            <div class="col mb-3">
+                <app-textarea-fields [formControl]="$any(dataService.myFromHr.controls['departmentReply'])" [attrLabel]="'departmentReply'" [inputTitle]="'Department Reply'" [placeholder]="'Enter the department reply'"></app-textarea-fields>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <app-select-fields [formControl]="$any(dataService.myFromHr.controls['statusAuditPara'])" [attrLabel]="'statusAuditPara'" [inputTitle]="'Status Audit Para'" [options]="statusAuditPara"></app-select-fields>
+                </div>
+                <div class="col">
+                    <app-select-fields [formControl]="$any(dataService.myFromHr.controls['statusRecovery'])" [attrLabel]="'statusRecovery'" [inputTitle]="'Status Recovery'" [options]="statusRecovery"></app-select-fields>
+                </div>
+            </div>
+        </section>
+        <section id="section-cases" class="section section-cases">
+            <h2 class="section-title">Cases</h2>
+            <form class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col">
+                        <app-select-fields [formControl]="$any(myFormCases.controls['caseType'])" [attrLabel]="'caseType'" [inputTitle]="'Case Type'" [options]="casesType" ></app-select-fields>
+                    </div>
+                    <div class="col">
+                        <app-hr-fields [formControl]="$any(myFormCases.controls['caseName'])" [attrLabel]="'caseName'" [inputTitle]="'Case Name'" [placeholder]="'Enter the case name'" [type]="'text'"></app-hr-fields>
+                    </div>
+                </div>
+                <div class="btn-group--container">
+                    <button [disabled]="!myFormCases.valid" class="btn btn-success" type="submit" (click)="submitPara(myFormCases, 'auditform/add-case', dataService.auditCasesContent)">Submit Case</button>
+                </div>
+            </form>
+            <div class="cases-table">
+                <table class="table table-hover table-bordered table-draft table-formhr">
+                    <thead>
+                        <tr>
+                            <th>Case Type</th>
+                            <th>Case Name</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-cases">
+                        <tr *ngFor="let cases of dataService.auditCasesContent" (click)="renderData(cases.caseId, dataService.auditCasesContent,'case',myFormCases)"> 
+                            <td>{{cases.caseType}}</td>
+                            <td>{{cases.caseName}}</td>
+                            <td>
+                                <button [disabled]="!dataService.activeActionBtns" class="btn btn-outline-primary" type="button" (click)="editAuditCase(myFormCases, cases.caseId ,dataService.auditCasesContent)" >
+                                    <lucide-icon class="icon-modal icon-edit" name="file-signature"></lucide-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <button [disabled]="!dataService.activeActionBtns" class="btn btn-outline-danger" type="button" (click)="deleteCase(cases.caseId, dataService.auditCasesContent)">
+                                    <lucide-icon class="icon-modal icon-del" name="trash"></lucide-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <div class="btn-main--container">
+            <button class="btn btn-outline-success para-pagination" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<app-footer></app-footer>
+
+<!-- Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum quam, nesciunt eos fugit pariatur eveniet reiciendis saepe vel porro amet, nostrum ullam, voluptatibus optio et? Quam dolore illo nihil provident qui et atque veniam accusamus exercitationem suscipit facere sed ut, quis sit libero rerum. Facilis ullam dolorum eius suscipit sit accusantium minus consequatur quia distinctio reiciendis temporibus earum, in quas dolore nihil. Sequi nam dolore ad molestias fuga! Placeat earum doloribus libero nostrum alias inventore, neque dignissimos quibusdam totam id a eligendi quo sequi magnam quam autem assumenda est sed beatae consectetur debitis sapiente. Odio excepturi voluptatibus qui suscipit iure. -->

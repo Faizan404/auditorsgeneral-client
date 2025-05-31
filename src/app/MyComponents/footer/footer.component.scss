@@ -1,0 +1,103 @@
+.footer{
+    padding: 1rem;
+    background-color: #343a40;
+    &-top{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .footer-org--logo{
+            display: flex;
+            align-items: center;
+            .f-logo{
+                width: 60px;
+                border-radius: 10px;
+                margin-right: 1rem;
+            }
+            /* === removing default button style ===*/
+            .button {
+                margin: 0;
+                height: auto;
+                background: transparent;
+                padding: 0;
+                border: none;
+                cursor: pointer;
+            }      
+            /* button styling */
+            .button {
+                --border-right: 6px;
+                --text-stroke-color: rgba(255,255,255,0.6);
+                --animation-color: #37FF8B;
+                --fs-size: 2em;
+                letter-spacing: 3px;
+                text-decoration: none;
+                font-size: var(--fs-size);
+                font-family: "Arial";
+                position: relative;
+                text-transform: uppercase;
+                color: transparent;
+                -webkit-text-stroke: 1px var(--text-stroke-color);
+            }
+            /* this is the text, when you hover on button */
+            .hover-text {
+                position: absolute;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                content: attr(data-text);
+                color: var(--animation-color);
+                width: 0%;
+                inset: 0;
+                border-right: var(--border-right) solid var(--animation-color);
+                overflow: hidden;
+                -webkit-transition: 0.5s;
+                transition: 0.5s;
+                -webkit-text-stroke: 1px var(--animation-color);
+            }
+            /* hover */
+            .button:hover .hover-text {
+                width: 100%;
+                -webkit-filter: drop-shadow(0 0 23px var(--animation-color));
+                filter: drop-shadow(0 0 23px var(--animation-color))
+            }
+        }
+        .footer-org--links{
+            width: 15%;
+            margin-top: 1rem;
+            .f-links{
+                // border: 1px solid #fff;
+                display: flex;
+                justify-content: space-between;
+                list-style: none;
+                .f-link{
+                    cursor: pointer;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    background-color: transparent;
+                    transition: all 300ms;
+                    &:nth-child(1):hover {
+                        background-color: #0077b6;
+                        box-shadow: 0 0 20px #0077b6;
+                    }
+                    &:nth-child(2):hover {
+                        background-color: #00b4d8;
+                        box-shadow: 0 0 20px #00b4d8;
+                    }
+                    &:nth-child(3):hover {
+                        background-color: #70e000;
+                        box-shadow: 0 0 20px #70e000;
+                    }
+                }
+            }
+        }
+    }
+    
+    &-bottom{
+        border-top: 1px solid #eee;
+        margin: 0 auto;
+        width: 70%;
+        .copright{
+            color: #eee;
+            text-align: center;
+            margin-top: .5rem;
+        }
+    }
+}

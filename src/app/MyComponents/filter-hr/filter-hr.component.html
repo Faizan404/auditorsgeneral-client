@@ -1,0 +1,316 @@
+<app-header></app-header>
+<div class="home-form--hr">
+  <div class="tabs">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          aria-current="page"
+          type="button"
+          routerLink="/home/form-hr"
+        >
+          Form
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link active"
+          type="button"
+          routerLink="/home/filter-hr"
+        >
+          Filter
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="filter-container">
+    <div class="fc-left fc">
+      <div class="filter-bar">
+        <div class="filter-fields">
+          <app-select-fields
+            [formControl]="$any(myFilterForm.controls['auditParaAndYear'])"
+            [attrLabel]="'auditParaAndYear'"
+            [options]="dataService.updateFormSelect"
+          ></app-select-fields>
+          <!-- <app-filter-fields [formControl]="$any(myFilterForm.controls['auditParaNo'])" [placeholder]="'Enter the para no.'" [type]="'text'"></app-filter-fields> -->
+
+          <app-filter-fields
+            [formControl]="$any(myFilterForm.controls['auditYearStart'])"
+            [placeholder]="'YYYY'"
+            [type]="'number'"
+          ></app-filter-fields>
+
+          <app-filter-fields
+            [formControl]="$any(myFilterForm.controls['auditYearEnd'])"
+            [placeholder]="'YYYY'"
+            [type]="'number'"
+          ></app-filter-fields>
+        </div>
+        <button
+          [disabled]="!myFilterForm.valid"
+          class="btn btn-outline-success"
+          type="button"
+          (click)="getFilteredData()"
+        >
+          <lucide-icon name="list-filter"></lucide-icon>
+        </button>
+        <button
+          [disabled]="!myFilterForm.valid"
+          class="btn btn-outline-success btn-filter"
+          type="button"
+          (click)="saveReportData()"
+          routerLink="/report"
+        >
+          Get Report
+        </button>
+      </div>
+      <!-- {{myFilterForm.status}} -->
+      <div class="report-preview--container">
+        <section class="section section-head">
+          <h3 class="rp-tit">Audit Brief</h3>
+          <div class="row row-head mb-1">
+            <span class="col">
+              <div class="key">Para No.</div>
+              <div class="key">{{ auditsDetailsData[0]?.auditParaNo }}</div>
+            </span>
+            <span class="col">
+              <div class="key">Ministry of Railways</div>
+            </span>
+          </div>
+          <div class="row row-head mb-1">
+            <span class="col">
+              <div class="key">Year:</div>
+              <div class="key">
+                {{ auditsDetailsData[0]?.auditYear ?? yearAudit ?? "" }}
+              </div>
+            </span>
+            <span class="col">
+              <div class="key">Federal Minister:</div>
+              <div class="value">
+                {{
+                  auditsDetailsData[0]?.federalMinister ?? ministerFederal ?? ""
+                }}
+              </div>
+            </span>
+          </div>
+          <div class="row row-head mb-1">
+            <span class="col">
+              <div class="key">Audit Officer:</div>
+              <div class="key">
+                {{ auditsDetailsData[0]?.auditOfficer ?? officer ?? "" }}
+              </div>
+            </span>
+            <span class="col">
+              <div class="key">Secretary/Chairperson:</div>
+              <div class="value">
+                {{ auditsDetailsData[0]?.chairperson ?? auditChairperson ?? "" }}
+              </div>
+            </span>
+          </div>
+        </section>
+        <section
+          class="section section-rp--content"
+          [innerHTML]="reportHtml"
+        ></section>
+      </div>
+    </div>
+    <div class="fc-right fc">
+      <div class="fc-right--filter-container">
+        <h6 class="filter-section filter-section--title">Audit Info</h6>
+        <div
+          class="audit-details mb-3"
+          *ngFor="let detail of auditsDetailsData"
+        >
+          <details>
+            <summary>Audit Year: {{ detail.auditYear }}</summary>
+            <div class="form-check" *ngFor="let key of details">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="{{ key }}"
+                value="{{ detail[key] }}"
+                (change)="
+                  key === 'auditComments'
+                    ? displayingAuditCommentsDynamically(
+                        '_' + key + detail.auditYear + '_',
+                        $event,
+                        detail[key]
+                      )
+                    : [
+                        'statusOfRecovery',
+                        'statusOfAuditPara',
+                        'dateOfIssuanceOfAuditObservation',
+                        'dateOfAuditReportFinalization'
+                      ].includes(key)
+                    ? displayingAuditExtrasDynamically(
+                        key,
+                        detail[key],
+                        $event,
+                        '_' + key + detail.auditYear + '_'
+                      )
+                    : displayingAuditInfosDynamically(
+                        key,
+                        detail[key],
+                        $event,
+                        '_' + key + detail.auditYear + '_'
+                      )
+                "
+              />
+              <label class="form-check-label" for="{{ key }}">
+                {{ key }}
+              </label>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="fc-right--filter-container">
+        <h6 class="filter-section filter-section--title">Draft Paras</h6>
+        <div class="gp-year--contain" *ngFor="let year of yearRange">
+          <h6 class="filter-section">Audit Year: {{ year }}</h6>
+          <div
+            class="audit-details mb-3"
+            *ngFor="let auditDrafts of auditsDraftsData"
+          >
+            <div class="gy-container" *ngIf="auditDrafts.auditYear === year">
+              <details>
+                <summary>Para No. {{ auditDrafts.draftParaNo }}</summary>
+                <div class="form-check" *ngFor="let key of drafts">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="{{ key }}"
+                    value="{{ auditDrafts[key] }}"
+                    (change)="
+                      displayingContentDynamically(
+                        '_' + key + auditDrafts.draftParaNo + '_',
+                        $event,
+                        [key, auditDrafts[key]],
+                        draftDataPreserver
+                      )
+                    "
+                  />
+                  <label class="form-check-label" for="{{ key }}">
+                    {{ key }}
+                  </label>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-right--filter-container">
+        <h6 class="filter-section filter-section--title">DACs Directives</h6>
+        <div class="gp-year--contain" *ngFor="let year of yearRange">
+          <h6 class="filter-section">Audit Year: {{ year }}</h6>
+          <div
+            class="audit-details mb-3"
+            *ngFor="let auditDacs of auditsDacsData"
+          >
+            <div class="gy-container" *ngIf="auditDacs.auditYear === year">
+              <details>
+                <summary>
+                  Decision Date. {{ auditDacs.dacDecisionDate.slice(0, 10) }}
+                </summary>
+                <div class="form-check" *ngFor="let key of dacs">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="{{ key }}"
+                    value="{{ auditDacs[key] }}"
+                    (change)="
+                      displayingContentDynamically(
+                        '_' +
+                          key +
+                          auditDacs.dacDecisionDate.slice(0, 10) +
+                          '_',
+                        $event,
+                        [key, auditDacs[key]],
+                        dacDataPreserver
+                      )
+                    "
+                  />
+                  <label class="form-check-label" for="{{ key }}">
+                    {{ key }}
+                  </label>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-right--filter-container">
+        <h6 class="filter-section filter-section--title">PACs Directives</h6>
+        <div class="gp-year--contain" *ngFor="let year of yearRange">
+          <h6 class="filter-section">Audit Year: {{ year }}</h6>
+          <div
+            class="audit-details mb-3"
+            *ngFor="let auditPacs of auditsPacsData"
+          >
+            <div class="gy-container" *ngIf="auditPacs.auditYear === year">
+              <details>
+                <summary>
+                  Decision Date. {{ auditPacs.pacDecisionDate.slice(0, 10) }}
+                </summary>
+                <div class="form-check" *ngFor="let key of pacs">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="{{ key }}"
+                    value="{{ auditPacs[key] }}"
+                    (change)="
+                      displayingContentDynamically(
+                        '_' +
+                          key +
+                          auditPacs.pacDecisionDate.slice(0, 10) +
+                          '_',
+                        $event,
+                        [key, auditPacs[key]],
+                        pacDataPreserver
+                      )
+                    "
+                  />
+                  <label class="form-check-label" for="{{ key }}">
+                    {{ key }}
+                  </label>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="fc-right--filter-container">
+        <h6 class="filter-section">Audit Cases</h6>
+        <div class="gp-year--contain" *ngFor="let year of yearRange">
+          <h6 class="filter-section">Audit Year: {{ year }}</h6>
+          <div
+            class="audit-details mb-3"
+            *ngFor="let auditCase of auditsCasesData"
+          >
+            <div class="gy-container" *ngIf="auditCase.auditYear === year">
+              <details>
+                <summary>Para No. {{ auditCase.draftParaNo }}</summary>
+                <div class="form-check" *ngFor="let key of darfts">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="{{ key }}"
+                    value="{{ auditCase[key] }}"
+                    (change)="testCheckbox(auditCase[key])"
+                  />
+                  <label class="form-check-label" for="{{ key }}">
+                    {{ key }}
+                  </label>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

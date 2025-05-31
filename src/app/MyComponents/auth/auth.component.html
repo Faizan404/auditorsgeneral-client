@@ -1,0 +1,84 @@
+<div class="auth-container">
+    <div class="auth-container--left">
+        <img src="assets/images/audit_logo.jpg" alt="pak_railway_logo" class="app-logo">
+    </div>
+    <div class="auth-container--right">
+        <div class="auth-form">
+            <h2 class="auth-form--title mb-3">{{authFormTitle}}</h2>
+            <!-- LOGIN FORM -->
+            <form [formGroup]="myLoginForm" class="auth-form--login" [class.hidden]="isLoginHidden" (ngSubmit)="getUserLogin()" autocomplete="off">
+                <app-auth-fields [formControl]="$any(myLoginForm.controls['email'])" [attrLabel]="'emailLogin'" [placeholder]="'abc@gmail.com'" [inputTitle]="'Email'" [type]="'email'"></app-auth-fields>
+                
+                <app-auth-fields [formControl]="$any(myLoginForm.controls['password'])" [attrLabel]="'passwordLogin'" [placeholder]="'Enter your password'" [inputTitle]="'Password'" [type]="'password'"></app-auth-fields>
+                <div class="btn-container">
+                    <button [disabled]="!myLoginForm.valid" class="btn btn-success btn-auth" type="submit">Login</button>
+                </div>
+            </form>
+            <!-- SIGN UP FORM -->
+            <form [formGroup]="myRegisterForm" class="auth-form--signup" [class.hidden]="isRegisterHidden" (ngSubmit)="getUserRegister()" autocomplete="off">
+                <app-auth-fields [formControl]="$any(myRegisterForm.controls['personnelNo'])" [attrLabel]="'personnel_no'" [inputTitle]="'Peronnel No'" [placeholder]="'XXXXXXXX'" [type]="'text'"></app-auth-fields>
+                
+                <app-auth-fields [formControl]="$any(myRegisterForm.controls['name'])" [attrLabel]="'name'" [inputTitle]="'Name'" [placeholder]="'Enter your name'" [type]="'text'"></app-auth-fields>
+
+                <app-auth-fields [formControl]="$any(myRegisterForm.controls['email'])" [attrLabel]="'emailRegister'" [inputTitle]="'Email'" [placeholder]="'abc@gmail.com'" [type]="'email'"></app-auth-fields>
+                
+                <app-auth-fields [formControl]="$any(myRegisterForm.controls['password'])" [attrLabel]="'passwordRegister'" [inputTitle]="'Password'" [placeholder]="'Enter your password'" [type]="'password'"></app-auth-fields>
+                
+                <app-auth-fields [formControl]="$any(myRegisterForm.controls['passwordConfirm'])" [attrLabel]="'passwordConfirmRegister'" [inputTitle]="'Password Confirm'" [placeholder]="'Re Enter your password'" [type]="'password'"></app-auth-fields>
+                
+                <div class="btn-container">
+                    <button [disabled]="!myRegisterForm.valid" class="btn btn-success btn-auth" type="submit">Sign up</button>
+                </div>
+            </form>
+            <!-- FORGET PASSWORD FORM -->
+            <form [formGroup]="myPasswordForgetForm" class="auth-form--forget_password" [class.hidden]="isForgetPasswordHidden" (ngSubmit)="getUserResetPasswordEmail()" autocomplete="off">
+                <app-auth-fields [formControl]="$any(myPasswordForgetForm.controls['email'])" [attrLabel]="'emailForget'" [placeholder]="'abc@gmail.com'" [inputTitle]="'Email'" [type]="'email'"></app-auth-fields>
+
+                <div class="btn-container">
+                    <button [disabled]="!myPasswordForgetForm.valid" class="btn btn-success btn-auth" type="submit">Forget Password</button>
+                </div>
+            </form>
+            <!-- RESET PASSWORD FORM -->
+            <form [formGroup]="myPasswordResetForm" class="auth-form--reset_password" [class.hidden]="isResetPasswordHidden" (ngSubmit)="resetPassword()" autocomplete="off">
+               <app-auth-fields [formControl]="$any(myPasswordResetForm.controls['email'])" [attrLabel]="'emailReset'" [placeholder]="'abc@gmail.com'" [inputTitle]="'Email'" [type]="'email'"></app-auth-fields>
+               
+               <app-auth-fields [formControl]="$any(myPasswordResetForm.controls['resetToken'])" [attrLabel]="'token'" [placeholder]="'Enter your password reset token'" [inputTitle]="'Password Reset Token'" [type]="'text'"></app-auth-fields>
+               
+               <app-auth-fields [formControl]="$any(myPasswordResetForm.controls['password'])" [attrLabel]="'passwordReset'" [placeholder]="'Enter a new password'" [inputTitle]="'New Password'" [type]="'password'"></app-auth-fields>
+               
+               <app-auth-fields [formControl]="$any(myPasswordResetForm.controls['passwordConfirm'])" [attrLabel]="'passwordConfirmReset'" [placeholder]="'Re Enter your password'" [inputTitle]="'Password Confirm'" [type]="'password'"></app-auth-fields>
+
+                <div class="btn-container">
+                    <button [disabled]="!myPasswordResetForm.valid" class="btn btn-success btn-auth" type="submit">Reset Password</button>
+                </div>
+            </form>
+
+            <div class="group-lines">
+                <div class="line-left line"></div>
+                <span class="in-line--between">Or</span>
+                <div class="line-right line"></div>
+            </div>
+
+            <div class="group-other--opts">
+                <div class="opts-login" [class.hidden]="isLoginHidden">
+                    <div class="opt-regiter">
+                        <span class="text">If Already haven't an Account</span>
+                        <span class="link" (click)="activeForm('Sign Up')">Register</span>
+                    </div>
+                    <div class="opt-forget_password">
+                        <span class="text">If you forget your password</span>
+                        <span class="link" (click)="activeForm('Forget Password')">Forget password</span>
+                    </div>
+                </div>
+                
+                <div class="opts-signup" [class.hidden]="!isLoginHidden">
+                    <div class="opt-regiter">
+                        <span class="text">If Already haven an Account</span>
+                        <span class="link" (click)="activeForm('Login')" routerLink="/">Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

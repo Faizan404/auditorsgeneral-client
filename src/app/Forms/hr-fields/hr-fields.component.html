@@ -1,0 +1,11 @@
+<label for={{attrLabel}} class="form-label">{{inputTitle}}</label>
+<input 
+    type={{type}} 
+    [class.is-invalid]="control.errors && control.touched" 
+    class="form-control" 
+    id={{attrLabel}} 
+    [formControl]="control" 
+    placeholder={{placeholder}}
+>
+
+<!-- <div class="invalid-feedback" *ngIf="control.errors?.['required']">Please enter a {{inputTitle.toLowerCase()}}</div> -->

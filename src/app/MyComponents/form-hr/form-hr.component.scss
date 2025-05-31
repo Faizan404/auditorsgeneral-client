@@ -1,0 +1,149 @@
+.home--form-hr{
+    position: relative;
+    padding: 2rem 1rem;
+    // padding: 2rem 0;
+    .section-navigator{
+        margin: 0 auto;
+        padding: 1rem 0.2rem;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        & .btn{
+        }
+    }
+
+    .btn-scrollup{
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        padding: 0.2rem;
+        bottom: 30px;
+        right: 30px;
+        z-index: 10;
+    }
+
+    .hr{
+        margin: 2rem 0;
+        .section{
+            min-height: 70vh;
+            padding: 1rem .5rem;
+            .section-title{
+                text-align: center;
+                margin: 2rem 0;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-weight: 800;
+                text-decoration: underline;
+            }
+
+            .para-pagination{
+                // border: 1px solid #000;
+                margin-bottom: 1rem;
+                display: flex;
+                justify-content: center;
+                & *:not(:last-child){
+                    margin-right: .5rem;
+                }
+            }
+            .btn-group--container{
+                // border: 1px solid #000; 
+                display: flex;
+                justify-content: center;
+                margin-bottom: 2rem;
+                & *:not(:last-child){
+                    margin-right: 1rem;
+                }
+            }
+        }
+        .section-audit{
+            padding-bottom: 5rem;
+        }
+        .section-draft{
+            clip-path: polygon(0 13%, 100% 0%, 100% 100%, 0% 100%);
+            background: linear-gradient(0deg, rgba(0, 255, 98, 0.9976365546) 0%, rgb(2, 231, 117) 81%);
+            margin-top: -4rem;
+            border-radius: 20px;
+            // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+            .draft{
+                margin-top: 5rem;
+                color: #fefcfb;
+            }
+            & label{
+                color: #fefcfb!important;
+            }
+        }
+
+        .section-directives--dac{
+            clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 85%);
+            background: linear-gradient(0deg, rgba(0, 255, 98, 0.9976365546) 0%, rgb(2, 231, 117) 81%);
+            padding-bottom: 5rem;
+            border-radius: 20px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+            .d-dirctive{
+                color: #fefcfb;
+                margin-top: 4rem;
+            }
+        }
+        // .section-reply{
+            
+            // }
+            .section-cases{
+                clip-path: polygon(0 13%, 100% 0%, 100% 100%, 0% 100%);
+                // clip-path: polygon(51% 0, 100% 17%, 100% 100%, 0 100%, 0 16%);
+            background: linear-gradient(0deg, rgba(0, 255, 98, 0.9976365546) 0%, rgb(2, 231, 117) 81%);
+            // height: 100vh;
+            border-radius: 20px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+            .section-title{
+                color: #fefcfb;
+                margin-top: 2rem;
+            }
+        }
+            
+        .btn-hr{
+            margin-top: 1rem;
+            width: 20%;
+        }
+        .table-formhr {
+            .table-cases{
+                padding: .3rem;
+                overflow: scroll;
+            }
+            // .icon-modal{
+            //     cursor: pointer;
+            //     transition: all 300ms linear;
+            //     padding: .2rem;
+            //     border-radius: 5px;
+            //     color: #fff;
+            //     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            // }
+            
+            // .icon-edit{
+            //     background-color: cornflowerblue;
+            // }
+            // .icon-del{
+            //     background-color: crimson;
+            // }
+            // .icon-edit:hover{
+            //     background-color: rgb(12, 46, 110);
+            // }
+            // .icon-del:hover{
+            //     background-color: rgb(126, 7, 30);
+            // }
+        }
+        .table-formhr *{
+            table-layout: fixed;
+        }
+
+        .btn-main--container{
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+            &_hr{
+            }
+        }
+    }
+}

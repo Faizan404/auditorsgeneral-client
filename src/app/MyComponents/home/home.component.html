@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="home">
+    <form class="home-new">
+        <h2 class="home-new--title hn-title">Create a new Report</h2>
+        <div class="row mb-3">
+            <div class="col">
+                <app-filter-fields [formControl]="$any(myCreateFormField.controls['auditParaNo'])" [placeholder]="'Enter the para no.'" [type]="'text'"></app-filter-fields>
+            </div>
+            <div class="col">
+                <app-filter-fields [formControl]="$any(myCreateFormField.controls['auditYear'])" [placeholder]="'YYYY'" [type]="'number'"></app-filter-fields>
+            </div>
+        </div>
+        <button [disabled]="!myCreateFormField.valid" class="btn btn-success mt-3 btn-home" (click)="createAuditForm()">Create Report</button>
+    </form>
+    <div class="home-old">
+        <h2 class="home-old--title hn-title">Update the exsisting Report</h2>
+        <div class="row mb-3">
+            <app-select-fields [formControl]="$any(myUpdateFormField.controls['updateFormSelect'])" [attrLabel]="'updateFormSelect'" [options]="dataService.updateFormSelect"></app-select-fields>
+        </div>
+        <button [disabled]="!myUpdateFormField.valid" class="btn btn-success mt-3 btn-home" (click)="getSelectedFormOptionsData(myUpdateFormField)">Update Report</button>
+    </div>
+</div>
+<app-footer></app-footer>

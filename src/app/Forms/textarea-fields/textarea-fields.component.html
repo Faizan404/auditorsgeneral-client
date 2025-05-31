@@ -1,0 +1,13 @@
+<label for="draft_para" class="form-label">{{inputTitle}}</label>
+
+<textarea 
+    [class.is-invalid]="control.errors && control.touched" 
+    class="form-control" 
+    id={{attrLabel}} 
+    [formControl]="control" 
+    placeholder={{placeholder}}
+    cols="30" 
+    rows="10" 
+></textarea>
+
+<div class="invalid-feedback" *ngIf="control.errors?.['required']">Please enter a {{inputTitle.toLowerCase()}}</div>

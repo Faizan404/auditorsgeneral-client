@@ -1,0 +1,18 @@
+<div class="row mb-1">
+
+    <label for={{attrLabel}} class="form-label">{{inputTitle}}</label>
+    
+    <input 
+        type={{type}} 
+        [class.is-invalid]="control.errors && control.touched" 
+        class="form-control" 
+        id={{attrLabel}} 
+        [formControl]="control" 
+        placeholder={{placeholder}}
+    >
+    
+    <div class="invalid-feedback" *ngIf="control.errors?.['required']">Please enter a {{inputTitle.toLowerCase()}}</div>
+    <div class="invalid-feedback" *ngIf="control.errors?.['minlength']">{{inputTitle.toLocaleLowerCase()}} must be atleast {{control.errors?.['minlength'].requiredLength}} characters</div>
+    <div class="invalid-feedback" *ngIf="control.errors?.['notMatching']">Password don't match</div>
+    <div class="invalid-feedback" *ngIf="control.errors?.['email']">Invalid email format</div>
+</div>

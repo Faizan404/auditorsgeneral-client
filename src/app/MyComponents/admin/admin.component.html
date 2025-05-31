@@ -1,0 +1,112 @@
+<app-header></app-header>
+<div class="backdrop" [class.hidden]="confirmationModal">
+  <div class="delete-modal">
+    <p>Are your want to permanently delete this record</p>
+    <div class="btn-container">
+      <button type="button" class="btn btn-dark" (click)="cancelDeleteAction()">
+        No
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="permanentlyDeleteAction()"
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+</div>
+<main class="admin">
+  <div class="tabs">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          [class.active]="activeTab"
+          type="button"
+          (click)="controllingAdminTabs('users')"
+        >
+          Users
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          [class.active]="!activeTab"
+          type="button"
+          (click)="controllingAdminTabs('forms')"
+        >
+          Forms
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <section id="section-admin" class="section section-admin">
+    <form
+      class="container-fluid admin-filter--bar"
+      (ngSubmit)="controllingFilterSearch()"
+      autocomplete="off"
+    >
+      <app-hr-fields
+        [formControl]="$any(myFormAdminSearch.controls['search'])"
+        [attrLabel]="'search'"
+        [inputTitle]="''"
+        [placeholder]="'Search'"
+        [type]="'text'"
+      ></app-hr-fields>
+      <div class="btn-group--container">
+        <button
+          [disabled]="!myFormAdminSearch.valid"
+          class="btn btn-success"
+          type="submit"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+    <div class="cases-table admin-users-table">
+      <table class="table table-hover table-bordered table-draft table-formhr">
+        <thead>
+          <tr>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th *ngFor="let keys of adminTableKeys">
+              {{ keys.toUpperCase() }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-cases table-admin-users">
+          <tr *ngFor="let values of adminTableValues">
+            <td>
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                (click)="editRowData(values)"
+              >
+                <lucide-icon
+                  class="icon-modal icon-edit"
+                  name="file-signature"
+                ></lucide-icon>
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-danger"
+                type="button"
+                (click)="deleteRowData(values)"
+              >
+                <lucide-icon
+                  class="icon-modal icon-del"
+                  name="trash"
+                ></lucide-icon>
+              </button>
+            </td>
+            <td *ngFor="let value of values">{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<app-footer></app-footer>

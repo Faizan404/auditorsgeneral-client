@@ -1,0 +1,10 @@
+<label for={{attrLabel}} class="form-label">{{inputTitle}}</label>
+<select  
+    [class.is-invalid]="control.errors && control.touched" 
+    class="form-control" 
+    id={{attrLabel}} 
+    [formControl]="control"
+    (selected)="deptSelected($event)"
+>
+<option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+</select>

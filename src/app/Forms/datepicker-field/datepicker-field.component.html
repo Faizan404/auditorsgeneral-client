@@ -1,0 +1,10 @@
+<label for={{attrLabel}} class="form-label">{{inputTitle}}</label>
+<input 
+    type="text"
+    [class.is-invalid]="control.touched && control.invalid"
+    [formControl]="control"
+    [bsConfig]="bsConfig" 
+    placeholder={{placeholder}}
+    class="form-control"
+    bsDatepicker
+>

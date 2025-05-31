@@ -1,0 +1,992 @@
+<app-header></app-header>
+<div class="profile">
+  <div class="profile-header">
+    <div class="profile-header--img">
+      <img src="assets/images/default_profile.png" alt="default_profile" />
+    </div>
+    <h1 class="profile-header--user" *ngIf="(accountService.currentUser$ | async) as user">{{user.name}}</h1>
+  </div>
+  <div class="profile-container">
+    <div class="tabs">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            aria-current="page"
+            type="button"
+            [class.active]="isTabActive"
+            (click)="makeTabActiveAndFormUnhide('p')"
+          >
+            Personal Info
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            [class.active]="!isTabActive"
+            type="button"
+            (click)="makeTabActiveAndFormUnhide('j')"
+          >
+            Job Info
+          </button>
+        </li>
+      </ul>
+    </div>
+    <form class="profile-form">
+      <div class="personal-info" [class.hidden]="isFormHidden">
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="
+                $any(myProfilePersonalForm.controls['personnelNo'])
+              "
+              [attrLabel]="'personnelNo'"
+              [inputTitle]="'Personnel No.'"
+              [placeholder]="'XXXXXXXX'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['name'])"
+              [attrLabel]="'name'"
+              [inputTitle]="'Name'"
+              [placeholder]="'Enter your name'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['fatherName'])"
+              [attrLabel]="'fatherName'"
+              [inputTitle]="'Father Name'"
+              [placeholder]="'Enter your father\'s name'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-select-fields
+              [formControl]="$any(myProfilePersonalForm.controls['gender'])"
+              [attrLabel]="'gender'"
+              [inputTitle]="'Gender'"
+              [options]="genderOptions"
+            ></app-select-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['height'])"
+              [attrLabel]="'height'"
+              [inputTitle]="'Height'"
+              [placeholder]="'Enter your height'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-datepicker-field
+              [formControl]="$any(myProfilePersonalForm.controls['dob'])"
+              [attrLabel]="'dob'"
+              [inputTitle]="'D.O.B'"
+              [placeholder]="'YYYY-MM-DD'"
+            ></app-datepicker-field>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['phoneNo'])"
+              [attrLabel]="'phoneNo'"
+              [inputTitle]="'Phone No.'"
+              [placeholder]="'Enter your phone no'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['address'])"
+              [attrLabel]="'address'"
+              [inputTitle]="'Address'"
+              [placeholder]="'Enter your permanent address'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['email'])"
+              [attrLabel]="'email'"
+              [inputTitle]="'Email'"
+              [placeholder]="'abc@gmail.com'"
+              [type]="'email'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <!-- ? EDUCATION -->
+        <section class="section section-education">
+          <form
+            class="sec-form edu-form"
+            (ngSubmit)="postSubFormsDetail('education')"
+          >
+            <div class="tabs">
+              <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    [class.active]="eduTab"
+                    type="button"
+                    (click)="
+                      controllingEduTabs(
+                        'education',
+                        dataService.profileEducation
+                      )
+                    "
+                  >
+                    Education
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    [class.active]="higherEduTab"
+                    type="button"
+                    (click)="
+                      controllingEduTabs(
+                        'higher education',
+                        dataService.profileEducation
+                      )
+                    "
+                  >
+                    Higher Education
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    [class.active]="professionalQualificationTab"
+                    type="button"
+                    (click)="
+                      controllingEduTabs(
+                        'professional qualification',
+                        dataService.profileEducation
+                      )
+                    "
+                  >
+                    Professional Qualification
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="sec-form--fields">
+              <div class="row mb-4">
+                <div class="col">
+                  <app-select-fields
+                    [formControl]="
+                      $any(myProfileEducationForm.controls['degree'])
+                    "
+                    [attrLabel]="'degree'"
+                    [inputTitle]="'Degree'"
+                    [options]="
+                      eduTab
+                        ? educationOptions
+                        : higherEduTab
+                        ? higherEducationOptions
+                        : professionalQualificationOptions
+                    "
+                  ></app-select-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileEducationForm.controls['passingYear'])
+                    "
+                    [attrLabel]="'passingYear'"
+                    [inputTitle]="'Passing Year'"
+                    [placeholder]="'XXXX'"
+                    [type]="'number'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileEducationForm.controls['grade'])
+                    "
+                    [attrLabel]="'grade'"
+                    [inputTitle]="'Grade'"
+                    [placeholder]="'Enter your grade e.g; A'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileEducationForm.controls['totalMarks'])
+                    "
+                    [attrLabel]="'totalMarks'"
+                    [inputTitle]="'Total Marks'"
+                    [placeholder]="'Enter your total marks'"
+                    [type]="'number'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileEducationForm.controls['obtainingMarks'])
+                    "
+                    [attrLabel]="'obtainingMarks'"
+                    [inputTitle]="'Obtaining Marks'"
+                    [placeholder]="'Enter your obtaining marks'"
+                    [type]="'number'"
+                  ></app-hr-fields>
+                </div>
+              </div>
+              <div class="btn-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+          <div class="sec-view edu-view" *ngFor="let eduData of eduDataKeeper">
+            <div [attr.data-section]="eduPseudoBeforeContent" class="data-view">
+              <div class="edu-info">
+                <h3 class="edu-type">{{ eduData.eduType.toUpperCase() }}</h3>
+                <h4 class="about-degree">
+                  <span class="degree">Degree: {{ eduData.degree }}</span>
+                  <span class="passing-year"
+                    >Passing Year: {{ eduData.passingYear }}</span
+                  >
+                </h4>
+                <h5 class="marks">
+                  <span class="t-o--marks"
+                    >{{ eduData.obtainingMarks }}/{{ eduData.totalMarks }}</span
+                  >
+                  <span class="grade">Grade: {{ eduData.grade }}</span>
+                </h5>
+              </div>
+              <div class="button-container">
+                <button
+                  class="btn btn-outline-primary"
+                  type="button"
+                  (click)="
+                    editSubFormData(
+                      dataService.profileEducation,
+                      'education',
+                      eduData.eduId,
+                      myProfileEducationForm
+                    )
+                  "
+                >
+                  <span>Edit</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-edit"
+                      name="file-signature"
+                    ></lucide-icon
+                  ></span>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  (click)="
+                    deleteSubFormData(
+                      dataService.profileEducation,
+                      'education',
+                      eduData.eduId
+                    )
+                  "
+                >
+                  <span>Delete</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-del"
+                      name="trash"
+                    ></lucide-icon
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="row mb-4">
+          <div class="col">
+            <app-select-fields
+              [formControl]="
+                $any(myProfilePersonalForm.controls['maritalStatus'])
+              "
+              [attrLabel]="'maritalStatus'"
+              [inputTitle]="'Marital Status'"
+              [options]="maritalStatusOptions"
+            ></app-select-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="
+                $any(myProfilePersonalForm.controls['bankAccount'])
+              "
+              [attrLabel]="'bankAccount'"
+              [inputTitle]="'Bank Account'"
+              [placeholder]="'Enter your bank account'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['bankName'])"
+              [attrLabel]="'bankName'"
+              [inputTitle]="'Bank Name'"
+              [placeholder]="'Enter bank\'s name'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        
+        <!--? FAMILY -->
+        <section class="section section-education">
+          <form
+            class="sec-form edu-form"
+            (ngSubmit)="postSubFormsDetail('family')"
+          >
+            <div class="tabs">
+              <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    type="button"
+                    [class.active]="childTab"
+                    (click)="controllFamilyTabs('children')"
+                  >
+                    Children
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    type="button"
+                    [class.active]="spouseTab"
+                    (click)="controllFamilyTabs('spouse')"
+                  >
+                    Spouse
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="sec-form--fields">
+              <div class="row mb-4">
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="$any(myProfileFamilyForm.controls['name'])"
+                    [attrLabel]="'name'"
+                    [inputTitle]="'Name'"
+                    [placeholder]="'Enter your name'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileFamilyForm.controls['fatherName'])
+                    "
+                    [attrLabel]="'fatherName'"
+                    [inputTitle]="'Father Name'"
+                    [placeholder]="'Enter your father\'s name'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <app-datepicker-field
+                    [formControl]="$any(myProfileFamilyForm.controls['dob'])"
+                    [attrLabel]="'dob'"
+                    [inputTitle]="'D.O.B'"
+                    [placeholder]="'YYYY-MM-DD'"
+                  ></app-datepicker-field>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col">
+                  <app-select-fields
+                    [formControl]="$any(myProfileFamilyForm.controls['gender'])"
+                    [attrLabel]="'gender'"
+                    [inputTitle]="'Gender'"
+                    [options]="genderOptions"
+                  ></app-select-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileFamilyForm.controls['education'])
+                    "
+                    [attrLabel]="'education'"
+                    [inputTitle]="'Education'"
+                    [placeholder]="'Enter the education'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+              </div>
+              <div class="btn-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+          <div class="sec-view edu-view" [class.hidden]="childTab">
+            <h3 class="data-view-title">Spouse</h3>
+            <div
+              [attr.data-section]="familyPseudoBeforeContent"
+              class="data-view"
+              *ngFor="let spouseData of dataService.profileFamilySpouse"
+            >
+              <div class="spouse-info">
+                <h4 class="about-spouse">
+                  <span>Name: </span>
+                  <span>{{ spouseData.name }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>Father Name: </span>
+                  <span>{{ spouseData.fatherName }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>D.O.B: </span>
+                  <span>{{ spouseData.dob.toString().slice(0, 10) }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>Education: </span>
+                  <span>{{ spouseData.education }}</span>
+                </h4>
+              </div>
+              <div class="button-container">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="
+                    editSubFormData(
+                      dataService.profileFamilySpouse,
+                      'spouse',
+                      spouseData.spouseId,
+                      myProfileFamilyForm
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Edit</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-edit"
+                      name="file-signature"
+                    ></lucide-icon
+                  ></span>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="
+                    deleteSubFormData(
+                      dataService.profileFamilySpouse,
+                      'spouse',
+                      spouseData.spouseId
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Delete</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-del"
+                      name="trash"
+                    ></lucide-icon
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="sec-view edu-view"
+            [class.hidden]="spouseTab"
+            *ngFor="let childData of dataService.profileFamilyChild"
+          >
+            <h3 class="data-view-title">Children</h3>
+            <div
+              [attr.data-section]="familyPseudoBeforeContent"
+              class="data-view"
+            >
+              <div class="spouse-info">
+                <h4 class="about-spouse">
+                  <span>Name: </span>
+                  <span>{{ childData.name }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>Gender: </span>
+                  <span>{{ childData.gender }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>D.O.B: </span>
+                  <span>{{ childData.dob.toString().slice(0, 10) }}</span>
+                </h4>
+                <h4 class="about-spouse">
+                  <span>Education: </span>
+                  <span>{{ childData.education }}</span>
+                </h4>
+              </div>
+              <div class="button-container">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="
+                    editSubFormData(
+                      dataService.profileFamilyChild,
+                      'children',
+                      childData.childId,
+                      myProfileFamilyForm
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Edit</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-edit"
+                      name="file-signature"
+                    ></lucide-icon
+                  ></span>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="
+                    deleteSubFormData(
+                      dataService.profileFamilyChild,
+                      'children',
+                      childData.childId
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Delete</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-del"
+                      name="trash"
+                    ></lucide-icon
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['totalChild'])"
+              [attrLabel]="'totalChild'"
+              [inputTitle]="'Total Child'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfilePersonalForm.controls['picture'])"
+              [attrLabel]="'imageUpload'"
+              [inputTitle]="'Upload Image'"
+              [type]="'file'"
+            ></app-hr-fields>
+          </div>
+        </div>
+      </div>
+
+      <div class="job-info" [class.hidden]="!isFormHidden">
+        <div class="row mb-4">
+          <div class="col">
+            <app-select-fields
+              [formControl]="$any(myProfileJobForm.controls['division'])"
+              [attrLabel]="'division'"
+              [inputTitle]="'Division'"
+              [options]="employeeDivision"
+            ></app-select-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['department'])"
+              [attrLabel]="'department'"
+              [inputTitle]="'Department'"
+              [placeholder]="'Enter your department'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="
+                $any(myProfileJobForm.controls['currentDesignation'])
+              "
+              [attrLabel]="'currentDesignation'"
+              [inputTitle]="'Current Designation'"
+              [placeholder]="'Enter your current designation'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="
+                $any(myProfileJobForm.controls['startingDesignation'])
+              "
+              [attrLabel]="'startingDesignation'"
+              [inputTitle]="'Starting Designation'"
+              [placeholder]="'Enter your starting designation'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['basicScale'])"
+              [attrLabel]="'basicScale'"
+              [inputTitle]="'Basic Scale'"
+              [placeholder]="'Enter the basic scale'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-datepicker-field
+              [formControl]="$any(myProfileJobForm.controls['dor'])"
+              [attrLabel]="'dor'"
+              [inputTitle]="'D.O.R'"
+              [placeholder]="'YYYY-MM-DD'"
+            ></app-datepicker-field>
+          </div>
+          <div class="col">
+            <app-datepicker-field
+              [formControl]="$any(myProfileJobForm.controls['doa'])"
+              [attrLabel]="'doa'"
+              [inputTitle]="'D.O.A'"
+              [placeholder]="'YYYY-MM-DD'"
+            ></app-datepicker-field>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['basicSalary'])"
+              [attrLabel]="'basicSalary'"
+              [inputTitle]="'Basic Salary'"
+              [placeholder]="'Enter the basic salary'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['currentSalary'])"
+              [attrLabel]="'currentSalary'"
+              [inputTitle]="'Current Salary'"
+              [placeholder]="'Enter your current salary'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['houseHold'])"
+              [attrLabel]="'houseHold'"
+              [inputTitle]="'House Hold'"
+              [placeholder]="'Enter your house hold'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['houseRent'])"
+              [attrLabel]="'houseRent'"
+              [inputTitle]="'House Rent'"
+              [placeholder]="'Enter the house rent'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="
+                $any(myProfileJobForm.controls['conveyanceAllowance'])
+              "
+              [attrLabel]="'conveyanceAllowance'"
+              [inputTitle]="'Conveyance Allowance'"
+              [placeholder]="'Enter your conveyance allowance'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['callCenterNo'])"
+              [attrLabel]="'callCenterNo'"
+              [inputTitle]="'Call Center Number CC No.'"
+              [placeholder]="'Enter your CC no.'"
+              [type]="'text'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['basicPension'])"
+              [attrLabel]="'basicPension'"
+              [inputTitle]="'Basic Pension'"
+              [placeholder]="'Enter the basic pension'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['grossPension'])"
+              [attrLabel]="'grossPension'"
+              [inputTitle]="'Gross Pension'"
+              [placeholder]="'Enter your gross pension'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['lfp'])"
+              [attrLabel]="'lfp'"
+              [inputTitle]="'Leaves With Full Pay (LFP)'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['lwf'])"
+              [attrLabel]="'lwf'"
+              [inputTitle]="'Leaves With Half Pay (LWF)'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['lwp'])"
+              [attrLabel]="'lwp'"
+              [inputTitle]="'Leaves Without Pay (LWP)'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['cl'])"
+              [attrLabel]="'cl'"
+              [inputTitle]="'Casual Leaves (CL)'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+          <div class="col">
+            <app-hr-fields
+              [formControl]="$any(myProfileJobForm.controls['al'])"
+              [attrLabel]="'al'"
+              [inputTitle]="'Accidental Leaves (AL)'"
+              [type]="'number'"
+            ></app-hr-fields>
+          </div>
+        </div>
+
+        <!-- JOB HISTROY -->
+        <h1>JOB HISTORY</h1>
+        <section class="section section-education">
+          <form
+            class="sec-form edu-form"
+            (ngSubmit)="postSubFormsDetail('job-history')"
+          >
+            <div class="sec-form--fields">
+              <div class="row mb-4">
+                <div class="col">
+                  <app-datepicker-field
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['startingDate'])
+                    "
+                    [attrLabel]="'startingDate'"
+                    [inputTitle]="'Start Date'"
+                    [placeholder]="'YYYY-MM-DD'"
+                  ></app-datepicker-field>
+                </div>
+                <div class="col">
+                  <app-datepicker-field
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['endingDate'])
+                    "
+                    [attrLabel]="'endingDate'"
+                    [inputTitle]="'Ending Date'"
+                    [placeholder]="'YYYY-MM-DD'"
+                  ></app-datepicker-field>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['department'])
+                    "
+                    [attrLabel]="'department'"
+                    [inputTitle]="'Department'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['prevDesignation'])
+                    "
+                    [attrLabel]="'previousDesignation'"
+                    [inputTitle]="'Previous Designation'"
+                    [type]="'text'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <app-hr-fields
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['prevSalary'])
+                    "
+                    [attrLabel]="'perviousSalary'"
+                    [inputTitle]="'Pervious Salary'"
+                    [placeholder]="'Enter your pervious salary'"
+                    [type]="'number'"
+                  ></app-hr-fields>
+                </div>
+                <div class="col">
+                  <!-- <app-hr-fields [formControl]="$any(myProfileJobHistoryForm.controls['wit'])" [attrLabel]="'wit'" [inputTitle]="'WIT'" [placeholder]="'Enter the WIT'" [type]="'text'"></app-hr-fields>  -->
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col">
+                  <app-datepicker-field
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['witStartDate'])
+                    "
+                    [attrLabel]="'witStartDate'"
+                    [inputTitle]="'WIT Start Date'"
+                    [placeholder]="'YYYY-MM-DD'"
+                  ></app-datepicker-field>
+                </div>
+                <div class="col">
+                  <app-datepicker-field
+                    [formControl]="
+                      $any(myProfileJobHistoryForm.controls['witEndDate'])
+                    "
+                    [attrLabel]="'witEndDate'"
+                    [inputTitle]="'WIT Ending Date'"
+                    [placeholder]="'YYYY-MM-DD'"
+                  ></app-datepicker-field>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <app-textarea-fields
+                  [formControl]="$any(myProfileJobHistoryForm.controls['wit'])"
+                  [attrLabel]="'wit'"
+                  [inputTitle]="'WIT'"
+                  [placeholder]="'Enter the WIT'"
+                ></app-textarea-fields>
+              </div>
+              <div class="btn-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+          <div class="sec-view edu-view">
+            <div
+              data-section="JOB HISTORY"
+              class="data-view"
+              *ngFor="let jobHistory of dataService.profileEmpJobHistory"
+            >
+              <div class="spouse-info">
+                <h4 class="about-job--history">
+                  {{ jobHistory.startTime.slice(0, 10) }} -
+                  {{ jobHistory.endTime.slice(0, 10) }}
+                </h4>
+                <h4 class="about-job--history">
+                  <span>Department: </span>
+                  <span>{{ jobHistory.department }}</span>
+                </h4>
+                <h4 class="about-job--history">
+                  <span>Previous Designation: </span>
+                  <span>{{ jobHistory.prevDesignation }}</span>
+                </h4>
+                <h4 class="about-job--history">
+                  <span>Previous Salary: </span>
+                  <span>{{ jobHistory.prevSalary }}</span>
+                </h4>
+                <hr />
+                <h4 class="about-job--history">
+                  {{ jobHistory.witStartTime.slice(0, 10) }} -
+                  {{ jobHistory.witEndTime.slice(0, 10) }}
+                </h4>
+                <h4 class="about-job--history">
+                  <span>WIT: </span>
+                  <span>{{ jobHistory.wit }}</span>
+                </h4>
+              </div>
+              <div class="button-container">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="
+                    editSubFormData(
+                      dataService.profileEmpJobHistory,
+                      'job-history',
+                      jobHistory.jobHistoryId,
+                      myProfileJobHistoryForm
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Edit</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-edit"
+                      name="file-signature"
+                    ></lucide-icon
+                  ></span>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="
+                    deleteSubFormData(
+                      dataService.profileEmpJobHistory,
+                      'job-history',
+                      jobHistory.jobHistoryId
+                    )
+                  "
+                  type="button"
+                >
+                  <span>Delete</span>
+                  <span
+                    ><lucide-icon
+                      class="icon-modal icon-del"
+                      name="trash"
+                    ></lucide-icon
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="btn-container profile-opts">
+        <div class="row">
+          <div class="col">
+            <button
+              class="btn btn-outline-danger btn-auth btn-hr"
+              type="button"
+              (click)="deleteAccount(accountService.currentUser$)"
+            >
+              Delete Account
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-outline-success btn-auth btn-hr"
+              type="button"
+              (click)="modifyProfileData()"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

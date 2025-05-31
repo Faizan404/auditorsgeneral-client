@@ -1,0 +1,102 @@
+                                ******* PERSONAL *******
+
+[Personnel No]                 [Name]               [Father Name]                                       
+
+[Gender]                     [Height]                            [DOB]
+    - Male
+    - Female
+    - Other
+
+[Phone No]                          [Address]            [Email]
+
++ --------------------------------------------------------------------------------- +
+
+                    [Education] [Higher Education] [Professional Qualification]
+
+[Degree]                            [Year]                               [Grade]         
+    - Different for every tab
+
+[Total Marks]                  [Obtaining Marks]
+
++ --------------------------------------------------------------------------------- +
+
+[Education Type]
+[Degree]    [Year]
+[Obtaining Marks / Total Marks] [Grade]                                     [Edit] [Delete]
+
+.
+.
+.
+
+[Maritial Status]                   [Bank Name]                       [Bank Account]
+    - Married
+    - Single / Unmarried
+
++ --------------------------------------------------------------------------------- +
+
+                                    [Childern] [Spouse(Wife/Husband)]
+
+[Name]                          [Father Name] (only in spouse)                  [DOB]         
+
+[Education]                  [Gender] (only in case of children)
+
++ --------------------------------------------------------------------------------- +
+
+                                            Spouse
+Name: 
+Father's Name: 
+DOB:
+Education:                                                           [Edit] [Delete]
+
+.
+.
+.
+
+                                            Children
+Name: 
+Gender: 
+DOB:
+Education:                                                           [Edit] [Delete]
+
+.
+.
+.
+
+[Total Child](Auto)       [Image Upload]
+
+                                        ******* JOB *******
+
+[Current designation]                   [Basic scale]                   [Starting designation]
+
+[DOR] (Auto calc by DOB)                    [DOA]                           [Basic salary] 
+
+[Current salary]                      [House allocated]                      [House rent] 
+
+[conveyance allowance]              [Call center number CC No]              [Basic Pension]
+
+[Cross pension]
+
++ ------------------------------------------------------------------------------------------ +
+                                    ******* JOB History *******
+
+[Department]                        [Previous designation]                [Previous salary]
+
+[WIT]                                   [Starting Date]                    [Ending Date]
+
++ ------------------------------------------------------------------------------------------ +
+
+[star] - [end]
+Department: 
+Previous Designation: 
+Previous Salary: 
+WIT:                                                                            [Edit] [Delete]
+
+.
+.
+.
+
+                                    ******* Leave Account *******
+
+[LFP] (Leave with full pay)             [LWF] (Leave with half pay)            [LWP] (Leave with out pay)
+
+[CL] (Casual Leave)                     [AL] (Accidental Leave)
