@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://www.auditorsgeneral-api.somee.com",
+    "target": "https://auditorsgeneral-api.somee.com",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
